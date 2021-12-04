@@ -525,7 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67a0f893f8aba8d428067b08e109e8fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 100
 --- !u!61 &1354317902
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -672,6 +672,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2108059127}
+  - component: {fileID: 2108059128}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -693,6 +694,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2108059128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108059126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2264e03f7b144a04b82ed7dd0a579c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2117096009
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,6 +829,10 @@ PrefabInstance:
     - target: {fileID: 9123719196820909868, guid: ea8925bc8e4bd8749978c96a9c7a8f86, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 9123719196820909869, guid: ea8925bc8e4bd8749978c96a9c7a8f86, type: 3}
+      propertyPath: deadForce
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9123719196820909879, guid: ea8925bc8e4bd8749978c96a9c7a8f86, type: 3}
       propertyPath: m_RootOrder
