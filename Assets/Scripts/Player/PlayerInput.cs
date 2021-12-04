@@ -18,6 +18,13 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetButtonDown("Jump") && player.isOnGround)
         {
             player.Jump();
+            player.canDoubleJump = true;
+            
+        }
+        else if (Input.GetButtonDown("Jump") && !player.isOnGround && player.canDoubleJump)
+        {
+            player.DoubleJump();
+            player.canDoubleJump = false;
         }
     }
 }
