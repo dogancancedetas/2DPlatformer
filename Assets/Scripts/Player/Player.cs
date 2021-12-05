@@ -8,8 +8,12 @@ public class Player : MonoBehaviour
     //Rigidbody2D
     Rigidbody2D body2D;
 
+    //Collider2D
     CircleCollider2D circle2D;
     BoxCollider2D box2D;
+
+    //Animator controller animasyonlari kontrol eder
+    Animator playerAnimController;
 
     /// <summary>
     /// bu var'lar karakterin hizini ve ziplama gucunu belirler
@@ -18,7 +22,7 @@ public class Player : MonoBehaviour
     [Range(0, 20)]
     public float playerSpeed;
 
-    //Zýplama
+    //Ziplama
     [Tooltip("Karakterin ne kadar yuksege ziplayacagini belirler.")]
     [Range(0, 1500)]
     public float jumpForce;
@@ -28,10 +32,9 @@ public class Player : MonoBehaviour
     [Tooltip("Karakterin 2. ziplamada ne kadar yuksege ziplayacagini belirler.")]
     [Range(0, 30)]
     public float doubleJumpForce;
-
     internal bool canDoubleJump;
 
-    //Karakteri döndürmek
+    //Karakteri dondurmek
     bool facingRight = true;
 
     //Yeri bulma
@@ -42,13 +45,11 @@ public class Player : MonoBehaviour
     [Tooltip("Yerin ne oldugunu belirler.")]
     public LayerMask groundLayer;
 
-    //Animator controller animasyonlari kontrol eder
-    Animator playerAnimController;
-
     //Oyuncu cani
     internal int maxHealth = 100;
     public int currentHealth;
     internal bool isHurt;
+    public float knockBackForce;
     Damage damage;
 
     //Oyuncuyu öldür
@@ -152,6 +153,26 @@ public class Player : MonoBehaviour
             //hp-damage = newhp
             currentHealth -= damage.damage;
             isHurt = false;
+
+            //Eger havadatsa sol veya sag ve dikey yonde guc uygula
+            if (facingRight && !isOnGround)
+            {
+                body2D.AddForce(new Vector2(-knockBackForce, 10), ForceMode2D.Impulse);
+            }
+            else if (!facingRight && !isOnGround)
+            {
+                body2D.AddForce(new Vector2(knockBackForce, 10), ForceMode2D.Impulse);
+            }
+
+            //Eger yerdeysek sol veya sag yonde guc uygula
+            if (facingRight && isOnGround)
+            {
+                body2D.AddForce(new Vector2(-knockBackForce, 0), ForceMode2D.Force);
+            }
+            else if (!facingRight && isOnGround)
+            {
+                body2D.AddForce(new Vector2(knockBackForce, 0), ForceMode2D.Force);
+            }
         }
     }
 

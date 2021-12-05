@@ -15,6 +15,7 @@ public class Damage : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+
             player.isHurt = true;
         }
     }
