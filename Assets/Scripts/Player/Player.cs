@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
     public int currentHealth;
     internal bool isHurt;
     public float knockBackForce;
-    Damage damage;
+    GiveDamage damage;
 
     //Oyuncuyu öldür
     internal bool isDead;
@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
         playerAnimController = GetComponent<Animator>();
 
         //hp'i maksimum hp'e esitle
-        damage = FindObjectOfType<Damage>();
+        damage = FindObjectOfType<GiveDamage>();
         currentHealth = maxHealth;
     }
 
