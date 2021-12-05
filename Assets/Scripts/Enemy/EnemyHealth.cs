@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     int maxEnemyHealth = 100;
-    float currentEnemyHealth;
+    internal float currentEnemyHealth;
     internal bool gotDamage;
 
     GiveDamageToEnemy giveDamage;
@@ -27,9 +27,6 @@ public class EnemyHealth : MonoBehaviour
             Debug.Log("Ouch");
         }
 
-        if (currentEnemyHealth <= 0)
-        {
-            
-        }
+        
     }
 }

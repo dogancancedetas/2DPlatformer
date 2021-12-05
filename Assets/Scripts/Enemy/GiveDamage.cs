@@ -14,7 +14,7 @@ public class GiveDamage : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.tag == "Player")
         {
             player.isHurt = true;
         }
