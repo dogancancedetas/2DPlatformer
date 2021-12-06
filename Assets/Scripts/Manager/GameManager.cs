@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<Player>();
 
         healthBar.maxValue = player.maxHealth;
-
     }
 
     // Update is called once per frame

@@ -27,12 +27,13 @@ public class Player : MonoBehaviour
     [Range(0, 1500)]
     public float jumpForce;
 
-
     //Double Jump
     [Tooltip("Karakterin 2. ziplamada ne kadar yuksege ziplayacagini belirler.")]
     [Range(0, 30)]
     public float doubleJumpForce;
     internal bool canDoubleJump;
+
+    internal bool canDamage;
 
     //Karakteri dondurmek
     bool facingRight = true;
@@ -55,7 +56,6 @@ public class Player : MonoBehaviour
     //Oyuncuyu öldür
     internal bool isDead;
     public float deadForce;
-
 
 
     // Start is called before the first frame update
@@ -94,31 +94,32 @@ public class Player : MonoBehaviour
         //Eger hp max hp'dan yuksekse hp'i max hp'ye esitle
         if (currentHealth > maxHealth)
             currentHealth = maxHealth;
-
-
     }
 
     // FixedUpdate: Framerate'den bagimsiz olarak calisir. Fizik ile ilgili kodlari buraya yazin.
     void FixedUpdate()
     {
-
         isOnGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
         float h = Input.GetAxis("Horizontal");
         body2D.velocity = new Vector2(h * playerSpeed, body2D.velocity.y);
         Flip(h);
+
+        if (isOnGround)
+        {
+            canDamage = false;
+        }
     }
 
     public void Jump()
     {
         body2D.AddForce(new Vector2(0, jumpForce));
-
     }
     public void DoubleJump()
     {
         //Y yönünde ani bir kuvvet uygular.
         body2D.AddForce(new Vector2(0, doubleJumpForce), ForceMode2D.Impulse);
-
+        canDamage = true;
     }
 
     void Flip(float h)
@@ -144,6 +145,7 @@ public class Player : MonoBehaviour
         if (!isDead && isHurt)
             playerAnimController.SetTrigger("isHurt");
     }
+
     //Hp azaltma fonksiyonu
     void ReduceHealth()
     {
@@ -177,10 +179,8 @@ public class Player : MonoBehaviour
     }
 
     //oyuncuyu oldurme fonksiyonu
-
     void KillPlayer()
     {
-
         isHurt = false;
         body2D.AddForce(new Vector2(0, deadForce), ForceMode2D.Impulse);
         body2D.drag += Time.deltaTime * 50;
@@ -188,7 +188,6 @@ public class Player : MonoBehaviour
         body2D.constraints = RigidbodyConstraints2D.FreezePositionX;
         box2D.enabled = false;
         circle2D.enabled = false;
-
     }
 
 
