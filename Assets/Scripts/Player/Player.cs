@@ -51,16 +51,39 @@ public class Player : MonoBehaviour
     public int currentHealth;
     internal bool isHurt;
     public float knockBackForce;
-    GiveDamage damage;
 
     //Oyuncuyu öldür
     internal bool isDead;
     public float deadForce;
 
+    //Oyuncunun puanlarý
+    
+    internal int currentPoint;
+    internal int point = 1;
+
+    //GameManager
+    GameManager gameManager;
+
+    //Checkpoint
+    public GameObject startPos;
+    GameObject checkPoint;
+
+    //Ses
+    internal AudioSource auSource;
+    AudioClip auJump;
+    AudioClip auHurt;
+    AudioClip auCoin;
+    AudioClip auCheckpoint;
+    AudioClip auDead;
+
+    //Ates Etmek
+    Transform firePoint;
+    GameObject bullet;
 
     // Start is called before the first frame update
     void Start()
     {
+        transform.position = startPos.transform.position;
         // Rigidbody ayarlari
         body2D = GetComponent<Rigidbody2D>();
         body2D.gravityScale = 5;
@@ -78,8 +101,23 @@ public class Player : MonoBehaviour
         playerAnimController = GetComponent<Animator>();
 
         //hp'i maksimum hp'e esitle
-        damage = FindObjectOfType<GiveDamage>();
         currentHealth = maxHealth;
+
+        //GameManager
+        gameManager = FindObjectOfType<GameManager>();
+
+        //SoundEffects
+        auSource = GetComponent<AudioSource>();
+        auJump = Resources.Load("SoundEffects/Jump") as AudioClip;
+        auHurt = Resources.Load("SoundEffects/HitHurt") as AudioClip;
+        auCoin = Resources.Load("SoundEffects/PickupCoin") as AudioClip;
+        auCheckpoint = Resources.Load("SoundEffects/Checkpoint") as AudioClip;
+        auDead = Resources.Load("SoundEffects/Dead") as AudioClip;
+
+        //Ates etmek
+        firePoint = transform.Find("FirePoint");
+        bullet = Resources.Load("Bullet") as GameObject;
+
     }
 
     private void Update()
@@ -94,6 +132,9 @@ public class Player : MonoBehaviour
         //Eger hp max hp'dan yuksekse hp'i max hp'ye esitle
         if (currentHealth > maxHealth)
             currentHealth = maxHealth;
+
+        if (transform.position.y <= -15)
+            isDead = true;
     }
 
     // FixedUpdate: Framerate'den bagimsiz olarak calisir. Fizik ile ilgili kodlari buraya yazin.
@@ -114,12 +155,16 @@ public class Player : MonoBehaviour
     public void Jump()
     {
         body2D.AddForce(new Vector2(0, jumpForce));
+        auSource.PlayOneShot(auJump);
+        auSource.pitch = Random.Range(0.8f, 1.1f);
     }
     public void DoubleJump()
     {
         //Y yönünde ani bir kuvvet uygular.
         body2D.AddForce(new Vector2(0, doubleJumpForce), ForceMode2D.Impulse);
         canDamage = true;
+        auSource.PlayOneShot(auJump);
+        auSource.pitch = Random.Range(0.8f, 1.1f);
     }
 
     void Flip(float h)
@@ -153,7 +198,7 @@ public class Player : MonoBehaviour
         {
             //Eger hp 100 ise o zaman hp'den zarar kadar cikar.
             //hp-damage = newhp
-            currentHealth -= damage.damage;
+            
             isHurt = false;
 
             //Eger havadatsa sol veya sag ve dikey yonde guc uygula
@@ -175,6 +220,12 @@ public class Player : MonoBehaviour
             {
                 body2D.AddForce(new Vector2(knockBackForce, 0), ForceMode2D.Force);
             }
+
+            if (!isDead)
+            {
+                auSource.PlayOneShot(auHurt);
+                auSource.pitch = Random.Range(0.8f, 1.1f);
+            }
         }
     }
 
@@ -188,7 +239,59 @@ public class Player : MonoBehaviour
         body2D.constraints = RigidbodyConstraints2D.FreezePositionX;
         box2D.enabled = false;
         circle2D.enabled = false;
+        
+
     }
 
+    public void RecoverPlayer()
+    {
+        if (checkPoint != null)
+            transform.position = checkPoint.transform.position;
+        else transform.position = startPos.transform.position;
 
+        deadForce = 5;
+        body2D.gravityScale = 5;
+        body2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        currentHealth = maxHealth;
+        box2D.enabled = true;
+        circle2D.enabled = true;
+        body2D.constraints = RigidbodyConstraints2D.None;
+        body2D.freezeRotation = true;
+        body2D.simulated = true;
+        body2D.drag = 0;
+    }
+
+    public void ShootProjectile()
+    {
+        GameObject b = Instantiate(bullet) as GameObject;
+        b.transform.position = firePoint.transform.position;
+        b.transform.rotation = firePoint.transform.rotation;
+        //b.GetComponent<Rigidbody2D>().AddForce(transform.forward * bulletSpeed, ForceMode2D.Impulse);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Coin")
+        {
+            Transform coinEffect;
+
+            currentPoint += point;
+            other.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            coinEffect = other.gameObject.transform.Find("CoinEffect");
+            coinEffect.gameObject.SetActive(true);
+            Destroy(other.gameObject,0.5f);
+            auSource.PlayOneShot(auCoin);
+        }
+
+        if (other.tag == "Checkpoint")
+        {
+            checkPoint = other.gameObject;
+            auSource.PlayOneShot(auCheckpoint);
+        }
+
+        if (other.tag == "Enemy" && isDead)
+        {
+            auSource.PlayOneShot(auDead);
+        }
+    }
 }

@@ -26,5 +26,10 @@ public class PlayerInput : MonoBehaviour
             player.DoubleJump();
             player.canDoubleJump = false;
         }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            player.ShootProjectile();
+        }
     }
 }

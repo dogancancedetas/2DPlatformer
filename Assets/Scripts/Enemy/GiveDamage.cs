@@ -17,6 +17,7 @@ public class GiveDamage : MonoBehaviour
         if (other.tag == "Player")
         {
             player.isHurt = true;
+            player.currentHealth -= damage;
         }
     }
 

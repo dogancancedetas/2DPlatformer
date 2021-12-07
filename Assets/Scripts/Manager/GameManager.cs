@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     //UI
     public Slider healthBar;
+    public Text points;
   
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        points.text ="Coins: " + player.currentPoint.ToString();
         if (player.isDead)
         {
             Invoke("RestartGame", 2); //string içindeki fonksiyonu çaðýrmadan önce verilen deger kadar bekler
@@ -40,7 +42,9 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
+        //Scene scene = SceneManager.GetActiveScene();
+        //SceneManager.LoadScene(scene.name);
+
+        player.RecoverPlayer();
     }
 }

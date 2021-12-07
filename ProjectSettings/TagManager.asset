@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - PlayerItem
+  - Coin
+  - Checkpoint
+  - Ground
   layers:
   - Default
   - TransparentFX
