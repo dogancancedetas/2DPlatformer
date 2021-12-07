@@ -8,6 +8,7 @@ public class EnemyHealth : MonoBehaviour
     public float currentEnemyHealth;
     internal bool gotDamage;
     public float damage;
+    public float projectileDamage;
     internal Transform deathParticle;
     SpriteRenderer graph;
     CircleCollider2D circle2D;
@@ -41,17 +42,25 @@ public class EnemyHealth : MonoBehaviour
             box2D.enabled = false;
             deathParticle.gameObject.SetActive(true);
             body2D.constraints = RigidbodyConstraints2D.FreezePositionX;
-            Destroy(gameObject,1);
+            Destroy(gameObject, 1);
 
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "PlayerItem" && player.canDamage)
+        if (other.tag == "Player" && player.canDamage)
         {
             currentEnemyHealth -= damage;
             player.auSource.PlayOneShot(auKill);
+
+        }
+
+        if (other.tag == "PlayerProjectile")
+        {
+            currentEnemyHealth -= projectileDamage;
+            player.auSource.PlayOneShot(auKill);
+            Destroy(other.gameObject);
 
         }
     }

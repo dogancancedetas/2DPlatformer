@@ -9,6 +9,7 @@ TagManager:
   - Coin
   - Checkpoint
   - Ground
+  - PlayerProjectile
   layers:
   - Default
   - TransparentFX

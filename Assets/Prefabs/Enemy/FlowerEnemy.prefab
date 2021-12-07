@@ -5202,4 +5202,4 @@ MonoBehaviour:
   maxEnemyHealth: 100
   currentEnemyHealth: 0
   damage: 100
-  deathParticle: {fileID: 1292628717}
+  projectileDamage: 25

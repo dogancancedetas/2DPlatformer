@@ -28,10 +28,8 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if (other.gameObject.tag == "Enemy")
-        {
-            Destroy(other.gameObject);
-            Destroy(gameObject);
-        }
+        
     }
+
+ 
 }

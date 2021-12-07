@@ -75,6 +75,7 @@ public class Player : MonoBehaviour
     AudioClip auCoin;
     AudioClip auCheckpoint;
     AudioClip auDead;
+    AudioClip auShoot;
 
     //Ates Etmek
     Transform firePoint;
@@ -113,6 +114,7 @@ public class Player : MonoBehaviour
         auCoin = Resources.Load("SoundEffects/PickupCoin") as AudioClip;
         auCheckpoint = Resources.Load("SoundEffects/Checkpoint") as AudioClip;
         auDead = Resources.Load("SoundEffects/Dead") as AudioClip;
+        auShoot = Resources.Load("SoundEffects/Shoot") as AudioClip;
 
         //Ates etmek
         firePoint = transform.Find("FirePoint");
@@ -266,6 +268,8 @@ public class Player : MonoBehaviour
         GameObject b = Instantiate(bullet) as GameObject;
         b.transform.position = firePoint.transform.position;
         b.transform.rotation = firePoint.transform.rotation;
+        auSource.PlayOneShot(auShoot);
+        auSource.pitch = Random.Range(0.8f, 1.1f);
         if (transform.localScale.x < 0 )
         {
             b.GetComponent<Projectile>().bulletSpeed *= -1;
@@ -287,7 +291,7 @@ public class Player : MonoBehaviour
             other.gameObject.GetComponent<SpriteRenderer>().enabled = false;
             coinEffect = other.gameObject.transform.Find("CoinEffect");
             coinEffect.gameObject.SetActive(true);
-            Destroy(other.gameObject,0.5f);
+            Destroy(other.gameObject,0.4f);
             auSource.PlayOneShot(auCoin);
         }
 
