@@ -8,7 +8,7 @@ public class EnemyHealth : MonoBehaviour
     public float currentEnemyHealth;
     internal bool gotDamage;
     public float damage;
-    Transform deathParticle;
+    internal Transform deathParticle;
     SpriteRenderer graph;
     CircleCollider2D circle2D;
     BoxCollider2D box2D;

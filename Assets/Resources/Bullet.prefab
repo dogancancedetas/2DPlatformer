@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4182238815026794924}
   - component: {fileID: -2313014729775969799}
   - component: {fileID: 7238528743579532904}
+  - component: {fileID: 4859483253343463436}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: PlayerItem
@@ -118,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddbc7f27edc61db4194a35b5bd6305ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 50
+  bulletSpeed: 20
 --- !u!58 &7238528743579532904
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -135,3 +136,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.09
+--- !u!95 &4859483253343463436
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5144846289061923200}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9be32caeafe274844acba9db138d7f85, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

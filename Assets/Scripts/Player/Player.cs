@@ -266,7 +266,15 @@ public class Player : MonoBehaviour
         GameObject b = Instantiate(bullet) as GameObject;
         b.transform.position = firePoint.transform.position;
         b.transform.rotation = firePoint.transform.rotation;
-        //b.GetComponent<Rigidbody2D>().AddForce(transform.forward * bulletSpeed, ForceMode2D.Impulse);
+        if (transform.localScale.x < 0 )
+        {
+            b.GetComponent<Projectile>().bulletSpeed *= -1;
+        }
+        else
+        {
+            b.GetComponent<Projectile>().bulletSpeed *= 1;
+
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

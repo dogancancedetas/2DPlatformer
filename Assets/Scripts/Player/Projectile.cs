@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
 
         bulletBody.AddForce(new Vector2(bulletSpeed, 0), ForceMode2D.Impulse);
 
-        Invoke("SelfDestroy", 0.5f);
+        Invoke("SelfDestroy", 1);
     }
 
     void SelfDestroy()
